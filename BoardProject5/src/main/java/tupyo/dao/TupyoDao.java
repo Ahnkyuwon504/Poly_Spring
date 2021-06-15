@@ -2,7 +2,9 @@ package tupyo.dao;
 
 import java.util.List;
 
+
 import tupyo.domain.Tupyo;
+import tupyo.domain.Hubo;
 
 public interface TupyoDao {
 	void create(Tupyo tupyo);
@@ -10,5 +12,8 @@ public interface TupyoDao {
 	List<Tupyo> selectAll();
 	void update(Tupyo tupyo);
 	void delete(Tupyo tupyo);
+	int selectAllCount();
+	int selectOneCount(Hubo hubo);
+	int[] selectOneAgeCount(Hubo hubo);
 
 }

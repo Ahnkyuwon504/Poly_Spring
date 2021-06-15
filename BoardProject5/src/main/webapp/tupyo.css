@@ -1,0 +1,20 @@
+@charset "EUC-KR";
+
+h1 {
+  color: red;
+}
+
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width : 80%;
+}
+
+button {
+	background-color: green;
+	width: 75px;
+}
+	
+tr {
+	border-bottom: 1px solid black;
+}

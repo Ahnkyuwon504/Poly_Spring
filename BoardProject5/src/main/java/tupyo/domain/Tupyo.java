@@ -4,6 +4,15 @@ public class Tupyo {
 	private int kiho;
 	private int age;
 	
+	public Tupyo() {
+		
+	}
+	
+	public Tupyo(int kiho, int age) {
+		super();
+		this.kiho = kiho;
+		this.age = age;
+	}
 	public int getKiho() {
 		return kiho;
 	}

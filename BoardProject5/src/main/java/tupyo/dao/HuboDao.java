@@ -2,6 +2,7 @@ package tupyo.dao;
 
 import java.util.List;
 
+
 import tupyo.domain.Hubo;
 
 public interface HuboDao {

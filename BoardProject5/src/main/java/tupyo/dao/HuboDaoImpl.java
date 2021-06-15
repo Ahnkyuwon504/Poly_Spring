@@ -2,6 +2,7 @@ package tupyo.dao;
 
 import java.sql.Connection;
 
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,9 @@ public class HuboDaoImpl implements HuboDao {
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			stmt = conn.createStatement();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,26 +31,59 @@ public class HuboDaoImpl implements HuboDao {
 
 	@Override
 	public void create(Hubo hubo) {
-		// TODO Auto-generated method stub
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			stmt = conn.createStatement();
+
+			String QueryTxt = "insert into hubo values (" + hubo.getKiho() + ", '" + hubo.getName() + "');";
+			stmt.execute(QueryTxt);
+			
+
+			stmt.close();
+			conn.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public Hubo selectOne(int id) {
-		// TODO Auto-generated method stub
-		Hubo hubo = new Hubo();
-		hubo.setKiho(1);
-		hubo.setName("스프링이란..");
-		return hubo;
+	public Hubo selectOne (int kiho) {
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			stmt = conn.createStatement();
+
+			String QueryTxt = "select * from hubo where kiho=" + kiho + ";";
+			rset = stmt.executeQuery(QueryTxt);
+			
+			Hubo selectedHubo = new Hubo();
+					
+			while (rset.next()) {
+				selectedHubo = new Hubo(rset.getInt(1), rset.getString(2));
+			}
+
+			rset.close();
+			stmt.close();
+			conn.close();
+			
+			return selectedHubo;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public ArrayList<Hubo> selectAll() {
 		
 		try {
-			ArrayList<Hubo> listOfHubo = new ArrayList<Hubo>();
 			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
+			ArrayList<Hubo> listOfHubo = new ArrayList<Hubo>();
 			rset = stmt.executeQuery("select * from hubo;");
+			//conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
 			
 			while (rset.next()) {
 				Hubo hubo = new Hubo();
@@ -78,7 +115,21 @@ public class HuboDaoImpl implements HuboDao {
 
 	@Override
 	public void delete(Hubo hubo) {
-		// TODO Auto-generated method stub
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			stmt = conn.createStatement();
+
+			String QueryTxt = "delete from hubo where kiho=" + hubo.getKiho() + ";";
+			stmt.execute(QueryTxt);
+			
+
+			stmt.close();
+			conn.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

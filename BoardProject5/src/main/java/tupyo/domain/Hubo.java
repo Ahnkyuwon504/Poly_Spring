@@ -4,6 +4,15 @@ public class Hubo {
 	private int kiho;
 	private String name;
 	
+	public Hubo() {
+		
+	}
+	
+	public Hubo(int kiho, String name) {
+		super();
+		this.kiho = kiho;
+		this.name = name;
+	}
 	public int getKiho() {
 		return kiho;
 	}
