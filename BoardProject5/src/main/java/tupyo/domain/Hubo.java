@@ -16,6 +16,11 @@ public class Hubo {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "Hubo [kiho=" + kiho + ", name=" + name + "]";
+	}
+	
 	
 	
 

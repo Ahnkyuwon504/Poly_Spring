@@ -1,21 +1,23 @@
 package tupyo.dao;
 
-import java.util.List;
+import java.sql.Connection;
 
-
-import java.io.*;
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import tupyo.domain.Hubo;
 
 public class HuboDaoImpl implements HuboDao {
+	static Connection conn;
+	static Statement stmt;
+	static ResultSet rset;
 	
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
-			Statement stmt = conn.createStatement();
-			ResultSet rset;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -26,7 +28,6 @@ public class HuboDaoImpl implements HuboDao {
 	@Override
 	public void create(Hubo hubo) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -39,9 +40,34 @@ public class HuboDaoImpl implements HuboDao {
 	}
 
 	@Override
-	public List<Hubo> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Hubo> selectAll() {
+		
+		try {
+			ArrayList<Hubo> listOfHubo = new ArrayList<Hubo>();
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery("select * from hubo;");
+			
+			while (rset.next()) {
+				Hubo hubo = new Hubo();
+				hubo.setKiho(rset.getInt(1));
+				hubo.setName(rset.getString(2));
+				
+				listOfHubo.add(hubo);
+			}
+			
+			rset.close();
+			stmt.close();
+			conn.close();
+			
+			return listOfHubo;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
