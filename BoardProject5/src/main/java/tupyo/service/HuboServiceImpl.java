@@ -9,7 +9,7 @@ import tupyo.domain.Hubo;
 
 public class HuboServiceImpl implements HuboService {
 	
-	private HuboDao huboDao = new HuboDaoImpl();
+	private HuboDao huboDao = HuboDaoImpl.getInstance();
 
 	@Override
 	public void create(Hubo hubo) {

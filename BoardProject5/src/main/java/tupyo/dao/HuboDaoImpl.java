@@ -12,6 +12,18 @@ import java.util.ArrayList;
 import tupyo.domain.Hubo;
 
 public class HuboDaoImpl implements HuboDao {
+	
+	private static HuboDaoImpl instance = new HuboDaoImpl();
+//	    시작하자마자 static에 하나 올려놓고 그것만 쓰는거야.. 왜냐 : 기능이 필요하지 상태가 필요한게 아니거든...
+	private HuboDaoImpl() {
+		//외부에선 절대 HuboDaoImpl()로 만들 수 없어.
+	    
+	}
+//	
+	public static HuboDaoImpl getInstance() {
+		return instance;
+	}
+	
 	static Connection conn;
 	static Statement stmt;
 	static ResultSet rset;

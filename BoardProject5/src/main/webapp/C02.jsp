@@ -24,7 +24,7 @@
 	<table>
 <%		
 		int count = 1;
-		int allAgeTupyo = tupyoService.selectAllCount();
+		int allAgeTupyo = tupyoService.selectOneCount(hubo);
 		for (int oneAgeTupyo : tupyoService.selectOneAgeCount(hubo)) {
 			int per = oneAgeTupyo * 100 / allAgeTupyo;
 %>

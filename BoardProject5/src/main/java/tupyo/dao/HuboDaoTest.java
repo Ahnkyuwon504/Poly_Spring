@@ -1,6 +1,7 @@
 package tupyo.dao;
 
 import tupyo.domain.Hubo;
+import tupyo.dao.*;
 
 public class HuboDaoTest {
 
@@ -10,9 +11,9 @@ public class HuboDaoTest {
 		hubo.setKiho(2);
 		hubo.setName("¶ó¶ó¸®¶ö·ç");
 		
-		HuboDao huboDao = new HuboDaoImpl();
+		HuboDao huboDao = HuboDaoImpl.getInstance();
+		//HuboDao huboDao = huboDao.getInstance();
 		huboDao.create(hubo);
 
 	}
-
 }
