@@ -1,0 +1,24 @@
+@charset "EUC-KR";
+body {
+	margin : 0 auto;
+	width : 70%;
+	background-color: pink;
+}
+
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width : 80%;
+	background-color: pink;
+}
+
+button {
+	background-color: green;
+	width: 75px;
+}
+	
+tr {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+
+}
