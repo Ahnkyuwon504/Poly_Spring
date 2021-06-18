@@ -12,5 +12,7 @@ public interface BoardService {
 	void update(Board board, String title, String content);
 	void delete(Board board);
 	String getDate();
+	List<Board> searchOne(String text);
+	int howMany();
 
 }
