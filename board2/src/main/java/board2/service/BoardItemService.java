@@ -13,7 +13,6 @@ public interface BoardItemService {
 	String getDate();
 	List<BoardItem> getAllComments(BoardItem boarditem);
 	void createComment(BoardItem boarditem, BoardItem comment);
-
-	
-
+	String getKeyWord(String search);
+	int[] getFromAndTo(String strfrom, String strto, int boardItemHowMany, int onePage);
 }

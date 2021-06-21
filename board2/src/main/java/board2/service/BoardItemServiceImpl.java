@@ -20,9 +20,6 @@ public class BoardItemServiceImpl implements BoardItemService {
 	
 	private BoardItemDao boardItemDao = BoardItemDaoImpl.getInstance();
 	
-	
-	
-	
 	@Override
 	public void create(BoardItem boarditem) {
 		// TODO Auto-generated method stub
@@ -82,5 +79,46 @@ public class BoardItemServiceImpl implements BoardItemService {
 	public List<BoardItem> selectAll(int boardid, String keyword) {
 		// TODO Auto-generated method stub
 		return boardItemDao.selectAll(boardid, keyword);
+	}
+
+	@Override
+	public String getKeyWord(String search) {
+		// TODO Auto-generated method stub
+		if (search == null) {
+			return "";
+		}
+		return search;
+	}
+
+	@Override
+	public int[] getFromAndTo(String strfrom, String strto, int boardItemHowMany, int onePage) {
+		// TODO Auto-generated method stub
+		int[] arrayOfFromAndTo = new int[2];
+		
+		int from = 0;
+		int to = 0;
+		
+		if (strfrom == null) {
+			from = 1;
+			to = onePage;
+		} else {
+			from = Integer.parseInt(strfrom);
+			to = Integer.parseInt(strto);
+			
+			if (from < 1) {
+				from = 1;
+				to = onePage;
+			}
+			
+			if (from > boardItemHowMany) {
+				from = (boardItemHowMany / onePage) * onePage + 1;
+				to = from + onePage - 1;
+			}
+		}
+		
+		arrayOfFromAndTo[0] = from;
+		arrayOfFromAndTo[1] = to;
+		
+		return arrayOfFromAndTo;
 	}
 }

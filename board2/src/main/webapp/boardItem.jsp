@@ -12,54 +12,70 @@
 <link rel="stylesheet" type="text/css" href="./board.css">
 </head>
 <body>
-<table>
+	<table>
 <%
-	BoardItemService boardItemService = BoardItemServiceImpl.getInstance();
 	request.setCharacterEncoding("utf-8");
+	BoardItemService boardItemService = BoardItemServiceImpl.getInstance();
+	int onePage = ConstantValue.onePage;
 	
 	String search = request.getParameter("key_search");
 	int boardid = Integer.parseInt(request.getParameter("key_boardid"));
+	String strfrom = request.getParameter("from");
+	String strto = request.getParameter("to");
+	
 	int boardItemHowMany = boardItemService.selectAll(boardid).size();
+	String keyword = boardItemService.getKeyWord(search);
 	
-	String keyword = "";
-	
-	if (search != null) {
-		keyword = search;
-	}
+	int from = boardItemService.getFromAndTo(strfrom, strto, boardItemHowMany, onePage)[0];
+	int to = boardItemService.getFromAndTo(strfrom, strto, boardItemHowMany, onePage)[1];
 
 	int cnt = 1;
 	for (BoardItem boardItem : boardItemService.selectAll(boardid, keyword)) {
+		if (cnt < from) {
+			cnt++;
+			continue;
+		}
 %>
-	<tr>
-		<td><%= cnt %></td>
-		<td>
-			<form id='oneBoardItem<%= boardItem.getItemid() %>' action='./oneBoardItem.jsp' method='post'>
-				<input type='hidden' name='key_itemid' value='<%= boardItem.getItemid() %>'/>
-				<input type='hidden' name='key_boardid' value='<%= boardid %>'/>
-				<input type='hidden' name='key_count' value='<%= cnt %>'/>
-			</form>
-			<a href='javascript:$("#oneBoardItem<%= boardItem.getItemid() %>").submit()'><%= boardItem.getTitle() %></a>
-		</td>
-		<td><%= boardItem.getDate() %></td>
-	</tr>
+		<tr>
+			<td><%= cnt %></td>
+			<td>
+				<form id='oneBoardItem<%= boardItem.getItemid() %>' action='./oneBoardItem.jsp' method='post'>
+					<input type='hidden' name='key_itemid' value='<%= boardItem.getItemid() %>'/>
+					<input type='hidden' name='key_boardid' value='<%= boardid %>'/>
+					<input type='hidden' name='key_count' value='<%= cnt %>'/>
+				</form>
+				<a href='javascript:$("#oneBoardItem<%= boardItem.getItemid() %>").submit()'><%= boardItem.getTitle() %></a>
+			</td>
+			<td><%= boardItem.getDate() %></td>
+		</tr>
 <%	
 		cnt++;
+		if (cnt > to) {
+			break;
+		}
 	}
 %>
-</table>
-
-
-<form id='search' action='./boardItem.jsp' method='post' accept-charset="utf-8">
-	<input type='text' name='key_search'>
-	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
-</form>
-<button class='btn-1' onclick='javascript:$("#search").submit()'>검 색</button>
-<form action="./insert.jsp" method="post">
-   	<input type="hidden" name="key_insert" value='<%= boardItemHowMany + 1 %>'>
-   	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
-   	<button class='btn-1' type="submit" formmethod="POST">새 글 작성</button>
-</form>
-<button class='btn-1' type="button" onclick="location.href='./board.jsp'">게시판 목록으로</button>
+	</table>
+	<a href='boardItem.jsp?from=<%= from - onePage %>&to=<%= from - 1 %>&key_boardid=<%= boardid %>'>이전</a>
+<%
+	for (int i = 1; i <= boardItemService.selectAll(boardid, keyword).size() / onePage + 1; i++) {
+%>
+	<a href='boardItem.jsp?from=<%= (i-1)*onePage + 1 %>&to=<%= i*onePage %>&key_boardid=<%= boardid %>'><%= i %></a>
+<%
+	}
+%>
+	<a href='boardItem.jsp?from=<%= from + onePage %>&to=<%=from + 2*onePage - 1 %>&key_boardid=<%= boardid %>'>다음</a>
+	<form id='search' action='./boardItem.jsp' method='post' accept-charset="utf-8">
+		<input type='text' name='key_search'>
+		<input type="hidden" name="key_boardid" value='<%= boardid %>'>
+	</form>
+	<button class='btn-1' onclick='javascript:$("#search").submit()'>검 색</button>
+	<form action="./insert.jsp" method="post">
+	   	<input type="hidden" name="key_insert" value='<%= boardItemHowMany + 1 %>'>
+	   	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
+	   	<button class='btn-1' type="submit" formmethod="POST">새 글 작성</button>
+	</form>
+	<button class='btn-1' type="button" onclick="location.href='./board.jsp'">게시판 목록으로</button>
 </body>
 </html>
 
