@@ -9,10 +9,16 @@
 <meta charset="utf-8">
 <title>boardItem</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css">
+<link rel="stylesheet" type="text/css" href="./board.css?after">
 </head>
 <body>
+<h1 id='head'># 게시판</h1>
 	<table>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>일자</th>
+		</tr>
 <%
 	request.setCharacterEncoding("utf-8");
 	BoardItemService boardItemService = BoardItemServiceImpl.getInstance();
@@ -56,15 +62,20 @@
 	}
 %>
 	</table>
-	<a href='boardItem.jsp?from=<%= from - onePage %>&to=<%= from - 1 %>&key_boardid=<%= boardid %>'>이전</a>
+	<div>
+		<div style="width: 140px; display: inline-block;"></div>
+		<a href='boardItem.jsp?from=<%= from - onePage %>&to=<%= from - 1 %>&key_boardid=<%= boardid %>'>이전</a>
 <%
 	for (int i = 1; i <= boardItemService.selectAll(boardid, keyword).size() / onePage + 1; i++) {
 %>
-	<a href='boardItem.jsp?from=<%= (i-1)*onePage + 1 %>&to=<%= i*onePage %>&key_boardid=<%= boardid %>'><%= i %></a>
+		<a href='boardItem.jsp?from=<%= (i-1)*onePage + 1 %>&to=<%= i*onePage %>&key_boardid=<%= boardid %>'><%= i %></a>
 <%
 	}
 %>
-	<a href='boardItem.jsp?from=<%= from + onePage %>&to=<%=from + 2*onePage - 1 %>&key_boardid=<%= boardid %>'>다음</a>
+
+		<a href='boardItem.jsp?from=<%= from + onePage %>&to=<%=from + 2*onePage - 1 %>&key_boardid=<%= boardid %>'>다음</a>
+	</div>
+	<br>
 	<form id='search' action='./boardItem.jsp' method='post' accept-charset="utf-8">
 		<input type='text' name='key_search'>
 		<input type="hidden" name="key_boardid" value='<%= boardid %>'>

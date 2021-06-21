@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <title>insert</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css">
+<link rel="stylesheet" type="text/css" href="./board.css?after">
 </head>
 <body>
 <%
@@ -19,7 +19,7 @@
 	int boardid = Integer.parseInt(request.getParameter("key_boardid"));
 	int count = Integer.parseInt(request.getParameter("key_insert"));
 %>
-
+<h1 id='head'># 새 글 작성</h1>
 <form id='insertBoardItem' action='./insertComplete.jsp' method='post' accept-charset="utf-8">
 	<table>
 		<tr>

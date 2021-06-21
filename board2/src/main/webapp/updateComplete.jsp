@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <title>updateComplete</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css">
+<link rel="stylesheet" type="text/css" href="./board.css?after">
 </head>
 <body>
 <%
@@ -23,7 +23,7 @@
 	
 	boardItemService.update(boardItemService.selectOne(itemid), title, content);
 %>
-<h1>수정되었습니다.</h1>
+<h1 id='head'># 수정 완료되었습니다.</h1>
 <form action="./boardItem.jsp" method="post">
    	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
    	<button class='btn-1' type="submit" formmethod="POST">목록으로</button>

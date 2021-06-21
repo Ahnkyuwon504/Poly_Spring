@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <title>oneBoardItem</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css">
+<link rel="stylesheet" type="text/css" href="./board.css?after">
 </head>
 <body>
 <%
@@ -32,6 +32,7 @@
 		boardItemService.createComment(boardItem, newComment);
 	}
 %>
+<h1 id='head'># '<%= boardItem.getTitle() %>' 게시물입니다.</h1>
 <form id='updateBoardItem' action='./updateComplete.jsp' method='post' accept-charset="utf-8">
 	<table>
 		<tr>
@@ -62,7 +63,7 @@
 	<input type="hidden" name="key_itemid" value='<%= itemid %>'>
 	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
 </form>
-<h2>해당 게시글에 대한 댓글입니다.</h2>
+<h1 id='head'>해당 게시글에 대한 댓글입니다.</h1>
 <form id='insertComment' action='./oneBoardItem.jsp' method='post' accept-charset="utf-8">
 	<table>
 		<tr>

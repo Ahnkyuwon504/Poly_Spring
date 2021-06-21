@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <title>insertComplete</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css">
+<link rel="stylesheet" type="text/css" href="./board.css?after">
 </head>
 <body>
 <%
@@ -24,7 +24,7 @@
 	BoardItem boardItem = new BoardItem(title, date, content, boardid);
 	boardItemService.create(boardItem);
 %>
-<h1>추가되었습니다.</h1>
+<h1 id='head'># 추가 완료되었습니다.</h1>
 <form action="./boardItem.jsp" method="post">
    	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
    	<button class='btn-1' type="submit" formmethod="POST">목록으로</button>

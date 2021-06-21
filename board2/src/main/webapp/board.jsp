@@ -9,9 +9,10 @@
 <meta charset="utf-8">
 <title>board</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css">
+<link rel="stylesheet" type="text/css" href="./board.css?after">
 </head>
 <body>
+	<h1 id='head'># 게시판 목록</h1>
 <%
 	BoardService boardService = BoardServiceImpl.getInstance();
 
