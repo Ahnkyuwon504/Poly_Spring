@@ -10,6 +10,7 @@
 <title>boardItem</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./board.css?after">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </head>
 <body>
 <h1 id='head'># 게시판</h1>
@@ -34,7 +35,7 @@
 	
 	int from = boardItemService.getFromAndTo(strfrom, strto, boardItemHowMany, onePage)[0];
 	int to = boardItemService.getFromAndTo(strfrom, strto, boardItemHowMany, onePage)[1];
-
+	
 	int cnt = 1;
 	for (BoardItem boardItem : boardItemService.selectAll(boardid, keyword)) {
 		if (cnt < from) {
@@ -87,6 +88,11 @@
 	   	<button class='btn-1' type="submit" formmethod="POST">새 글 작성</button>
 	</form>
 	<button class='btn-1' type="button" onclick="location.href='./board.jsp'">게시판 목록으로</button>
+	
+	<c:out value="hello world"/>
+	<c:forEach var="boardItem" items="${boardItems}">
+		<p><c:out value="${boardItem.id}" /></p>
+	</c:forEach>
 </body>
 </html>
 

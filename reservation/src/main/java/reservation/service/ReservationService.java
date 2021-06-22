@@ -14,7 +14,7 @@ public interface ReservationService {
 	String checkAvail(String date, int room);
 	String roomName(int room);
 	void isAvailCreate(String date, String strroom, String name, 
-			String addr, String tel, String name_money, String memo);
+	String addr, String tel, String name_money, String memo);
 	int getMaxDay(String strMaxDay);
 
 }

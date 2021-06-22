@@ -32,7 +32,7 @@
 	<form action='./reservationStatus.jsp' method='post'>
 		<select name='key_maxday'>
 <%
-	for (int i = 1; i <= maxDay; i++) {
+	for (int i = 1; i <= ConstantValue.maxDay; i++) {
 %>
 			<option value='<%=i%>'><%=i%></option>
 <%
@@ -68,11 +68,3 @@
 	</table>
 </body>
 </html>
-
-
-
-
-
-
-
-

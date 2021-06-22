@@ -19,7 +19,7 @@ public class ReservationServiceImpl implements ReservationService {
 		return instance;
 	}
 	
-	ReservationDaoImpl reservationDaoImpl = ReservationDaoImpl.getInstance();
+	private ReservationDaoImpl reservationDaoImpl = ReservationDaoImpl.getInstance();
 
 	@Override
 	public void create(Reservation reservation) {
