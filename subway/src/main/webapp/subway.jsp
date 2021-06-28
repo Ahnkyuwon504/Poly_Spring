@@ -29,6 +29,7 @@
 	
 	Subway subway = subwayServiceImpl.create();
 	Print print = subwayServiceImpl.getTime(subway, start, arrive);
+	out.print(print.getRoute().toString());
 %>
 	<form action="./subway.jsp" method="post" accept-charset="utf-8">
 	   	<input type="text" name="key_start">

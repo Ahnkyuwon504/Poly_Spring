@@ -178,7 +178,7 @@ public Subway create() {
 			}
 			
 			for (int i = 0; i < 10; i++) {
-				boolean visit = false;
+				//boolean visit = false;
 				int lineCnt = 0;
 				String start = "";
 				String arrive = "";
@@ -193,25 +193,26 @@ public Subway create() {
 						lineCnt++;
 						continue;
 					}
-					
-					if (isTwoNodes(i, arrive) && visit) continue;
+					//if (isTwoNodes(i, arrive) && visit) continue;
 
-					if (isTwoNodes(i, arrive) && !visit) {
-						visit = true;
-					}
+					/*
+					 * if (isTwoNodes(i, arrive) && !visit) { visit = true; }
+					 */
 					
 					insertArrayList(start, arrive);
 					insertArrayList(arrive, start);
 				}
 			}
 			
+			map.get(41).remove(2);
+			map.get(78).remove(1);
 			/*
 			 * for (int i = 0; i < map.size(); i++) { String oneStation = ""; for (int j =
-			 * 0; j < map.get(i).size(); j++) { oneStation += map.get(i).get(j); oneStation
-			 * += " "; }
+			 * 0; j < map.get(i).size(); j++) { oneStation += map.get(i).get(j);
+			 * oneStation+= " "; }
 			 * 
-			 * System.out.println((i+2) + " "+ isAvail[i]+ " 에서 출반해서 " +( i+3
-			 * )+"번째에 해당하는 도착지 : " + oneStation); }
+			 * System.out.println((i+2) + " "+ isAvail[i]+ " 에서 출반해서 " +(
+			 * i+3)+"번째에 해당하는 도착지 : " + oneStation); }
 			 */
 			subway.setMap(map);
 			subway.setTime(time);
@@ -223,7 +224,6 @@ public Subway create() {
 			stmt.close();
 			conn.close();
 			return subway;
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
