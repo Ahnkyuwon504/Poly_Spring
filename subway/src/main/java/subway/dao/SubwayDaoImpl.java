@@ -34,7 +34,7 @@ public class SubwayDaoImpl implements SubwayDao {
 	static int[] visit;
 	static int[] lineLength;
 	static ArrayList<ArrayList<String>> map;
-	static ArrayList<String> twoNodes;
+	static ArrayList<ArrayList<String>> twoNodes;
 	
 	static {
 		try {
@@ -127,16 +127,16 @@ public class SubwayDaoImpl implements SubwayDao {
 		}
 	}
 	
-	static boolean isTwoNodes(String name) {
-		for (int i = 0; i < twoNodes.size(); i++) {
-			if (name.equals(twoNodes.get(i)))
+	static boolean isTwoNodes(int i, String name) {
+		for (int j = 0; j < twoNodes.get(i).size(); j++) {
+			if (name.equals(twoNodes.get(i).get(j)))
 				return true;
 		}
 		return false;
 	}
 
 	@Override
-	public Subway create() {
+public Subway create() {
 		
 		try {
 			map = new ArrayList<ArrayList<String>>();
@@ -144,15 +144,13 @@ public class SubwayDaoImpl implements SubwayDao {
 			line = new int[1000][1000];
 			visit = new int[1000];
 			isAvail = new String[1000];
-			twoNodes = new ArrayList<String>();
+			twoNodes = new ArrayList<ArrayList<String>>();
 			lineLength = new int[10];
 			Arrays.fill(isAvail, "");
-			
-			
-//			for (int i = 0; i < 1000; i++) {
-//				map.add(new ArrayList<String>());
-//			}
-					 
+
+			for (int i = 0; i < 10; i++) {
+				twoNodes.add(new ArrayList<String>());
+			}
 			
 			Subway subway = new Subway();
 			
@@ -173,7 +171,7 @@ public class SubwayDaoImpl implements SubwayDao {
 						isAvail[cnt] = oneName;
 						cnt++;
 					} else {
-						twoNodes.add(oneName);
+						twoNodes.get(i).add(oneName);
 					}
 				}
 				lineLength[i] = cnt - 1;
@@ -196,41 +194,30 @@ public class SubwayDaoImpl implements SubwayDao {
 						continue;
 					}
 					
-//					if (isTwoNodes(arrive) && !visit) {
-//						visit = true;
-//						insertArrayList(start, arrive);
-//						continue;
-//					}
-					// 다중경로의 종착역
-					
-					
-					if (isTwoNodes(arrive)) {
-						insertArrayList(arrive, start);
-						continue;
-					}
+					if (isTwoNodes(i, arrive) && visit) continue;
 
+					if (isTwoNodes(i, arrive) && !visit) {
+						visit = true;
+					}
+					
 					insertArrayList(start, arrive);
 					insertArrayList(arrive, start);
 				}
 			}
 			
-			for (int i = 0; i < map.size(); i++) {
-				String oneStation = "";
-				for (int j = 0; j < map.get(i).size(); j++) {
-					oneStation += map.get(i).get(j);
-					oneStation += " ";
-				}
-				
-				System.out.println((i+2) +  " "+ isAvail[i]+ " 에서 출반해서 " +( i+3 )+"번째에 해당하는 도착지 : " + oneStation);
-			}
-			
-			
-			
-			
+			/*
+			 * for (int i = 0; i < map.size(); i++) { String oneStation = ""; for (int j =
+			 * 0; j < map.get(i).size(); j++) { oneStation += map.get(i).get(j); oneStation
+			 * += " "; }
+			 * 
+			 * System.out.println((i+2) + " "+ isAvail[i]+ " 에서 출반해서 " +( i+3
+			 * )+"번째에 해당하는 도착지 : " + oneStation); }
+			 */
 			subway.setMap(map);
 			subway.setTime(time);
 			subway.setLine(line);
 			subway.setVisit(visit);
+			subway.setIsAvail(isAvail);
 			
 			rset.close();
 			stmt.close();

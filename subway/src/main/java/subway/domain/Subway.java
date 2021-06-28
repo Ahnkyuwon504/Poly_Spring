@@ -7,6 +7,7 @@ public class Subway {
 	private int[][] time;
 	private int[][] line;
 	private int[] visit;
+	private String[] isAvail;
 	
 	public Subway() {
 		
@@ -36,6 +37,14 @@ public class Subway {
 	}
 	public void setVisit(int[] visit) {
 		this.visit = visit;
+	}
+
+	public String[] getIsAvail() {
+		return isAvail;
+	}
+
+	public void setIsAvail(String[] isAvail) {
+		this.isAvail = isAvail;
 	}
 	
 	

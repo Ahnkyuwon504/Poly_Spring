@@ -1,10 +1,11 @@
 package subway.service;
 
+import subway.domain.Print;
 import subway.domain.Subway;
 
 public interface SubwayService {
 	Subway create();
-	int getTime(Subway subway, int start, int arrive);
+	Print getTime(Subway subway, String start, String arrive);
 	void insertDB(); 
 	void createDB();
 	void deleteDB();

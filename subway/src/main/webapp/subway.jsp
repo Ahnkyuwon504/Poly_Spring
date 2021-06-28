@@ -9,7 +9,6 @@
 <meta charset="utf-8">
 <title>subway</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./reservation.css?after">
 </head>
 <body>
 <%
@@ -20,18 +19,31 @@
 	//subwayServiceImpl.createDB();
 	//subwayServiceImpl.insertDB();
 	
-	int time = 0;
-	Subway subway = subwayServiceImpl.create();
-	/*
-	String strStart = request.getParameter("key_start");
-	String strArrive = request.getParameter("key_arrive");
+	String start = request.getParameter("key_start");
+	String arrive = request.getParameter("key_arrive");
 	
-	if (strStart != null) {
-		int start = Integer.parseInt(strStart); 
-		int arrive = Integer.parseInt(strArrive); 
-		time = subwayServiceImpl.getTime(subway, start, arrive);
-	} */
+	if (start == null) {
+		start = "용산";
+		arrive = "회기";
+	} 
+	
+	Subway subway = subwayServiceImpl.create();
+	Print print = subwayServiceImpl.getTime(subway, start, arrive);
 %>
-	<h1>소요시간은 <%= time %> 분 입니다.</h1>
+	<form action="./subway.jsp" method="post" accept-charset="utf-8">
+	   	<input type="text" name="key_start">
+	   	<input type="text" name="key_arrive">
+	   	<button type="submit" formmethod="POST">검 색</button>
+	</form>
+	<h1>소요시간은 <%= print.getTime() %> 분 입니다.</h1>
+	<h1>출발합니다.</h1>
+<%
+	for (String station : print.getRoute()) {
+%>
+	<h1><%= station %> 역을 정차합니다.</h1>
+<%
+	}
+%>
+	<h1>도착했습니다.</h1>
 </body>
 </html>
