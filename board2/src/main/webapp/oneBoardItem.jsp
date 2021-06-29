@@ -9,7 +9,81 @@
 <meta charset="utf-8">
 <title>oneBoardItem</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="./board.css?after">
+<style>
+table.type10 {
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.5;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 20px 10px;
+}
+table.type10 thead th {
+  width: 150px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  color: #fff;
+  background: #e7708d;
+  margin: 20px 10px;
+}
+table.type10 tbody th {
+  width: 150px;
+  padding: 10px;
+}
+table.type10 td {
+  width: 350px;
+  padding: 10px;
+  vertical-align: top;
+}
+table.type11 {
+  border-collapse: separate;
+  border-spacing: 1px;
+  text-align: center;
+  line-height: 1.5;
+  margin: 20px 10px;
+}
+table.type11 th {
+  width: 155px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  color: #fff;
+  background: #ce4869 ;
+}
+table.type11 td {
+  width: 155px;
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  background: #eee;
+}
+form {
+	display:inline;
+	vertical-align:middle;
+}
+button {
+	display:inline;
+	vertical-align:middle;
+    background-color:#FF5A5F;
+    color:white;
+    width: 70px;
+    height: 45px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 0;
+    outline: 0;
+}
+input[type=text]{
+	display:inline;
+	vertical-align:middle;
+    height:40px;
+    width:300px;
+    border-radius: 4px;
+    font-size: 20px;
+}
+</style>
 </head>
 <body>
 <%
@@ -34,27 +108,27 @@
 %>
 <h1 id='head'># '<%= boardItem.getTitle() %>' 게시물입니다.</h1>
 <form id='updateBoardItem' action='./updateComplete.jsp' method='post' accept-charset="utf-8">
-	<table>
+	<table class="type11">
 		<tr>
-			<td>번호</td>
+			<th>번호</th>
 			<td>
 				<input type='text' value='<%= count %>' readonly>
 			</td>
 		<tr>
 		<tr>
-			<td>제목</td>
+			<th>제목</th>
 			<td>
 				<input type='text' name='key_title' value='<%= boardItem.getTitle() %>'/>
 			</td>
 		<tr>
 		<tr>
-			<td>일자</td>
+			<th>일자</th>
 			<td>
 				<input type='text' value='<%= boardItemService.getDate() %>' readonly>
 			</td>
 		<tr>
 		<tr>
-			<td>내용</td>
+			<th>내용</th>
 			<td>
 				<input type='text' name='key_content' value='<%= boardItem.getContent() %>'/>
 			</td>
@@ -63,14 +137,17 @@
 	<input type="hidden" name="key_itemid" value='<%= itemid %>'>
 	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
 </form>
-<h1 id='head'>해당 게시글에 대한 댓글입니다.</h1>
+<h1 id='head'># 해당 게시글에 대한 댓글입니다.</h1>
 <form id='insertComment' action='./oneBoardItem.jsp' method='post' accept-charset="utf-8">
-	<table>
+	<table class="type10">
+	<thead>
 		<tr>
-			<td>제목</td>
-			<td>일자</td>
-			<td>내용</td>
+			<th>제목</th>
+			<th>일자</th>
+			<th>내용</th>
 		<tr>
+	</thead>
+	<tbody>
 <%
 	for (BoardItem comment : boardItem.getComments()) {
 %>
@@ -93,22 +170,26 @@
 				<input type='text' name='key_commentContent'>
 			</td>
 		<tr>
+	</tbody>
 	</table>
 	 <input type="hidden" name="key_itemid" value='<%= itemid %>'>
 	 <input type="hidden" name="key_count" value='<%= count %>'>
 	 <input type="hidden" name="key_boardid" value='<%= boardid %>'>
 </form>
-<button onclick='javascript:$("#insertComment").submit()'>댓글 추가</button>
-<form action="./boardItem.jsp" method="post">
-   	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
-   	<button class='btn-1' type="submit" formmethod="POST">목록으로</button>
-</form>
-<form action="./deleteComplete.jsp" method="post">
-	<input type="hidden" name="key_itemid" value='<%= itemid %>'>
-   	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
-   	<button class='btn-1' type="submit" formmethod="POST">삭제</button>
-</form>
-<button class='btn-1' onclick='javascript:$("#updateBoardItem").submit()'>수정</button>
+
+<div style="text-align:center;">
+	<form action="./boardItem.jsp" method="post">
+	   	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
+	   	<button class='btn-1' type="submit" formmethod="POST">목록</button>
+	</form>
+	<button onclick='javascript:$("#insertComment").submit()'>추가</button>
+	<form action="./deleteComplete.jsp" method="post">
+		<input type="hidden" name="key_itemid" value='<%= itemid %>'>
+	   	<input type="hidden" name="key_boardid" value='<%= boardid %>'>
+	   	<button class='btn-1' type="submit" formmethod="POST">삭제</button>
+	</form>
+	<button class='btn-1' onclick='javascript:$("#updateBoardItem").submit()'>수정</button>
+</div>
 </body>
 </html>
 
