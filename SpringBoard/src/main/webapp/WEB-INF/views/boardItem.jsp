@@ -102,60 +102,78 @@ input[type=text]{
 </style>
 </head>
 <body>
-	<h1># 게시판</h1>
-	<table>
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>일자</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:set var="cnt" value="0"/>
-			<c:forEach var="boardItem" items="${boardItemList}">
-				<c:set var="cnt" value="${cnt+1}"/>
-				
-				<c:if test="${from <= cnt && cnt <= to}">
-					<tr>
-						<td>${cnt}</td>
-						<td>
-							<form id='oneBoardItem${boardItem.getItemid()}' action='/SpringBoard/oneBoardItem' method='post'>
-								<input type='hidden' name='key_itemid' value='${boardItem.getItemid()}'/>
-								<input type='hidden' name='key_boardid' value='${boardId}'/>
-								<input type='hidden' name='key_count' value='${cnt}'/>
-							</form>
-							<a href='javascript:$("#oneBoardItem${boardItem.getItemid()}").submit()'>${boardItem.getTitle()}</a>
-						</td>
-						<td>${boardItem.getDate()}</td>
-					</tr>
-
-				</c:if>
-				
-			</c:forEach> 
-		</tbody>
-	</table>
-	<ul>
-		<li><a href='/SpringBoard/boardItem?from=${previousPageFrom}&to=${previousPageTo }&key_boardid=${boardId}'>&lt;</a></li>
-
-		<c:forEach var="i" begin="1" end="${nowPageMax}" step="1">
-			<li><a href='/SpringBoard/boardItem?from=${(i-1)*onePage + 1}&to=${i*onePage}&key_boardid=${boardId}'>${i}</a></li>
-		</c:forEach>
-		
-		<li><a href='/SpringBoard/boardItem?from=${nextPageFrom}&to=${nextPageTo}&key_boardid=${boardId}'>&gt;</a></li>
-	</ul>
-	<form id='search' action='/SpringBoard/boardItem' method='post' accept-charset="utf-8">
-		<input type='text' name='key_search'>
-		<input type="hidden" name="key_boardid" value='${boardId}'>
-		<button onclick='javascript:$("#search").submit()'>검 색</button>
-	</form>
-	<form action="/SpringBoard/insert" method="post">
-	   	<input type="hidden" name="key_insert" value='${cnt + 1}'>
-	   	<input type="hidden" name="key_boardid" value='${boardId}'>
-	   	<button type="submit" formmethod="POST">글 작성</button>
-	</form>
-	<form>
-		<button type="button" onclick="location.href='/SpringBoard/board'">게시판 목록</button>
-	</form>
+	<div style="text-align:center;">
+		<h1 id='head'># 게시판</h1>
+		<table class='type10'>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:set var="cnt" value="0"/>
+				<c:forEach var="boardItem" items="${boardItemList}">
+					<c:set var="cnt" value="${cnt+1}"/>
+					
+					<c:if test="${from <= cnt && cnt <= to && cnt % 2 == 0}">
+						<tr>
+							<th class="even">${cnt}</th>
+							<td class="even">
+								<form id='oneBoardItem${boardItem.getItemid()}' action='/SpringBoard/oneBoardItem' method='post'>
+									<input type='hidden' name='key_itemid' value='${boardItem.getItemid()}'/>
+									<input type='hidden' name='key_boardid' value='${boardId}'/>
+									<input type='hidden' name='key_count' value='${cnt}'/>
+								</form>
+								<a href='javascript:$("#oneBoardItem${boardItem.getItemid()}").submit()'>${boardItem.getTitle()}</a>
+							</td>
+							<td class="even">${boardItem.getDate()}</td>
+						</tr>
+	
+					</c:if>
+					
+					<c:if test="${from <= cnt && cnt <= to && cnt % 2 != 0}">
+						<tr>
+							<th>${cnt}</th>
+							<td>
+								<form id='oneBoardItem${boardItem.getItemid()}' action='/SpringBoard/oneBoardItem' method='post'>
+									<input type='hidden' name='key_itemid' value='${boardItem.getItemid()}'/>
+									<input type='hidden' name='key_boardid' value='${boardId}'/>
+									<input type='hidden' name='key_count' value='${cnt}'/>
+								</form>
+								<a href='javascript:$("#oneBoardItem${boardItem.getItemid()}").submit()'>${boardItem.getTitle()}</a>
+							</td>
+							<td>${boardItem.getDate()}</td>
+						</tr>
+	
+					</c:if>
+					
+				</c:forEach> 
+			</tbody>
+		</table>
+		<ul>
+			<li><a href='/SpringBoard/boardItem?from=${previousPageFrom}&to=${previousPageTo }&key_boardid=${boardId}'>&lt;</a></li>
+	
+			<c:forEach var="i" begin="1" end="${nowPageMax}" step="1">
+				<li><a href='/SpringBoard/boardItem?from=${(i-1)*onePage + 1}&to=${i*onePage}&key_boardid=${boardId}'>${i}</a></li>
+			</c:forEach>
+			
+			<li><a href='/SpringBoard/boardItem?from=${nextPageFrom}&to=${nextPageTo}&key_boardid=${boardId}'>&gt;</a></li>
+		</ul>
+		<form id='search' action='/SpringBoard/boardItem' method='post' accept-charset="utf-8">
+			<input type='text' name='key_search'>
+			<input type="hidden" name="key_boardid" value='${boardId}'>
+			<button onclick='javascript:$("#search").submit()'>검 색</button>
+		</form>
+		<form action="/SpringBoard/insert" method="post">
+		   	<input type="hidden" name="key_insert" value='${cnt + 1}'>
+		   	<input type="hidden" name="key_boardid" value='${boardId}'>
+		   	<button type="submit" formmethod="POST">글 작성</button>
+		</form>
+		<form>
+			<button type="button" onclick="location.href='/SpringBoard/board'">게시판 목록</button>
+		</form>
+	</div>
 </body>
 </html>
