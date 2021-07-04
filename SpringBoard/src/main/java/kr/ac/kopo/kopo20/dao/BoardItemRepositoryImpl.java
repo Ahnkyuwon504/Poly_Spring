@@ -1,6 +1,7 @@
 package kr.ac.kopo.kopo20.dao;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 
 		} catch (Exception e) {
@@ -35,7 +36,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	public void create(BoardItem boarditem) {
 		// TODO Auto-generated method stub
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 
 			String QueryTxt = "insert into boarditem (title, date, content, boardid)"
@@ -58,7 +59,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	@Override
 	public BoardItem selectOne(int itemid) {
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery("select * from boarditem where itemid=" + itemid + ";");
 			BoardItem boardItem = new BoardItem();
@@ -86,7 +87,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	@Override
 	public List<BoardItem> selectAll(int boardid) {
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery("select * from boarditem where parent is null and boardid=" + boardid + ";");
 			ArrayList<BoardItem> listOfBoardItem = new ArrayList<BoardItem>();
@@ -120,7 +121,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	public void update(BoardItem boarditem, String title, String content) {
 		// TODO Auto-generated method stub
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 
 			String QueryTxt = "update boarditem set title='" + title + 
@@ -141,7 +142,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	public void delete(BoardItem boarditem) {
 		// TODO Auto-generated method stub
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 
 			String QueryTxt = "delete from boarditem" +
@@ -167,7 +168,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 		// TODO Auto-generated method stub
 		try {
 			boarditem.getComments().add(comment);
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 
 			String QueryTxt = "insert into boarditem (title, date, content, boardid, parent) values"
@@ -190,7 +191,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	public List<BoardItem> getAllComments(BoardItem boarditem) {
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 			String QueryTxt = "select * from boarditem where parent=" + boarditem.getItemid() + ";";
 			rset = stmt.executeQuery(QueryTxt);
@@ -221,7 +222,7 @@ public class BoardItemRepositoryImpl implements BoardItemRepository {
 	public List<BoardItem> selectAll(int boardid, String keyword) {
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 			String QueryTxt;
 			

@@ -21,7 +21,7 @@ public class BoardRepositoryImpl implements BoardRepository{
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 
 		} catch (Exception e) {
@@ -46,7 +46,7 @@ public class BoardRepositoryImpl implements BoardRepository{
 	public List<Board> selectAll() {
 		// TODO Auto-generated method stub
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.20:33060/kopoctc", "root", "kopoctc");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.23.97:33060/kopoctc", "root", "kopoctc");
 			stmt = conn.createStatement();
 			ArrayList<Board> listOfBoard = new ArrayList<Board>();
 			rset = stmt.executeQuery("select * from board;");
