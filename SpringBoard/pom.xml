@@ -59,9 +59,16 @@
 		  	<artifactId>standard</artifactId> 
 		  	 <version>1.1.2</version>
 		</dependency>
+		<!-- MySQL dependecy --> 
 		<dependency> 
 		  	<groupId>mysql</groupId>
 		  	<artifactId>mysql-connector-java</artifactId> 
+		</dependency>
+		<!-- Mybatis dependecy --> 
+		<dependency> 
+		  	<groupId>org.mybatis.spring.boot</groupId>
+		  	<artifactId>mybatis-spring-boot-starter</artifactId>
+		  	<version>2.1.1</version> 
 		</dependency>
 	</dependencies>
 
