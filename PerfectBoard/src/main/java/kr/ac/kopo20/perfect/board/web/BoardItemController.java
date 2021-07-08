@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.ac.kopo20.perfect.board.domain.Board;
 import kr.ac.kopo20.perfect.board.domain.BoardItem;
 import kr.ac.kopo20.perfect.board.repository.BoardItemRepository;
 import kr.ac.kopo20.perfect.board.repository.BoardRepository;
+import kr.ac.kopo20.perfect.board.service.BoardItemService;
 
 @Controller
 public class BoardItemController {
@@ -21,14 +23,18 @@ public class BoardItemController {
 	@Autowired
 	BoardItemRepository boardItemRepository;
 	
+	@Autowired
+	BoardItemService boardItemService;
+	
 	@RequestMapping(value = "/boardItem")
 	public String getBoardItem(Model model,
 			@RequestParam(value="key_boardId") int boardId
 			) {
-		String boardTitle = boardRepository.findById(boardId).get().getTitle();
+		
+		Board board = boardRepository.findById(boardId).get();
 		List<BoardItem> boardItems = boardItemRepository.findByBoard_id(boardId);
-		model.addAttribute("boardId", boardId);
-		model.addAttribute("boardTitle", boardTitle);
+		
+		model.addAttribute("board", board);
 		model.addAttribute("boardItems", boardItems);
 		return "boardItem";
 	}
@@ -36,17 +42,60 @@ public class BoardItemController {
 	
 	
 	@RequestMapping(value = "/oneBoardItem")
-	public String getOneBoardItem(Model model,
+	public String oneBoardItem(Model model,
+			@RequestParam(value="key_count", required=false) int count,
 			@RequestParam(value="key_boardItemId", required=false) int boardItemId
 			) {
 		BoardItem boardItem = boardItemRepository.findById(boardItemId).get();
 		
-		model.addAttribute("boardItemTitle", boardItem.getTitle());
-		model.addAttribute("boardItemDate", boardItem.getStrDate());
-		model.addAttribute("boardItemContent", boardItem.getContent());
+		model.addAttribute("count", count);
+		model.addAttribute("boardItem", boardItem);
+		model.addAttribute("boardId", boardItem.getBoard().getId());
 		
 		return "oneBoardItem";
 	}
+	
+	@RequestMapping(value = "/updateComplete")
+	public String updateComplete(Model model,
+			@RequestParam(value="key_title", required=false) String title,
+			@RequestParam(value="key_content", required=false) String content,
+			@RequestParam(value="key_boardItemId", required=false) int boardItemId
+			) {
+		
+		BoardItem boardItem = boardItemRepository.findById(boardItemId).get();
+		
+		boardItem.setTitle(title);
+		boardItem.setContent(content);
+		boardItemRepository.save(boardItem);
+		
+		model.addAttribute("boardId", boardItem.getBoard().getId());
+		return "updateComplete";
+	}
+	
+	@RequestMapping(value = "/deleteComplete")
+	public String deleteComplete(Model model,
+			@RequestParam(value="key_boardItemId", required=false) int boardItemId
+			) {
+		int boardId = boardItemRepository.findById(boardItemId).get().getBoard().getId();
+		boardItemRepository.deleteById(boardItemId);
+		
+		model.addAttribute("boardId", boardId);
+		return "deleteComplete";
+	}
+	
+	@RequestMapping(value = "/insert")
+	public String insert(Model model,
+			@RequestParam(value="key_count", required=false) int count,
+			@RequestParam(value="key_boardId", required=false) int boardId
+			) {
+		
+		model.addAttribute("count", count);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("date", boardItemService.getDate());
+		return "insert";
+	}
+	
+	
 	
 	
 

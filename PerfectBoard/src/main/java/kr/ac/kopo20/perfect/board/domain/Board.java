@@ -23,10 +23,6 @@ public class Board {
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="board")
 	private List<BoardItem> boardItems;
-
-	
-	
-	
 	
 	public int getId() {
 		return id;

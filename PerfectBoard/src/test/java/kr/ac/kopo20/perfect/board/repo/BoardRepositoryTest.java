@@ -2,6 +2,7 @@ package kr.ac.kopo20.perfect.board.repo;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,45 +34,102 @@ class BoardRepositoryTest {
 	@Autowired
 	private BoardItemRepository boardItemRepository;
 	
-	@Test 
-	public void board() {
-		List<Board> boards = boardRepository.findAll();
+//	@Test
+	public void updateBoard() {
+		Board board = boardRepository.findById(14).get();
+		board.setTitle("업데이트한 첫 번째 게시판");
+		boardRepository.save(board);
+	}
+	
+	
+//	@Test 
+	public void createBoardItem() {
+		Board board = boardRepository.findById(14).get();
 		
-		for (Board board : boards) {
-			System.out.println(board.toString());
-		}
+		BoardItem boardItem = new BoardItem();
+		boardItem.setTitle("첫 번째 게시판의 다섯 번째 게시물");
+		boardItem.setDate(new Date());
+		boardItem.setContent("내용");
+		boardItem.setBoard(board);
+		
+		List<BoardItem> list = new ArrayList<>();
+		list.add(boardItem);
+		board.setBoardItems(list);
+		
+		boardRepository.save(board);
 	}
 	
 	
 	
 //	@Test
-	public void create() {
+	public void createBoardAndBoardItem() {
 		// 부모생성
 		Board board1 = new Board();
-		board1.setTitle("세 번째 게시판");
+		board1.setTitle("첫 번째 게시판");
 		
 		// 자식생성 및 부모 알려줌
 		BoardItem boardItem1 = new BoardItem();
-		boardItem1.setTitle("날짜 번째 게시물");
+		boardItem1.setTitle("첫 번째 게시판의 첫 번째 게시물");
+		boardItem1.setContent("내용");
 		boardItem1.setBoard(board1);
 		boardItem1.setDate(new Date());
 		
+		BoardItem boardItem2 = new BoardItem();
+		boardItem2.setTitle("첫 번째 게시판의 두 번째 게시물");
+		boardItem2.setContent("내용");
+		boardItem2.setBoard(board1);
+		boardItem2.setDate(new Date());
+		
+		BoardItem boardItem3 = new BoardItem();
+		boardItem3.setTitle("첫 번째 게시판의 세 번째 게시물");
+		boardItem3.setContent("내용");
+		boardItem3.setBoard(board1);
+		boardItem3.setDate(new Date());
+		
+		BoardItem boardItem4 = new BoardItem();
+		boardItem4.setTitle("첫 번째 게시판의 네 번째 게시물");
+		boardItem4.setContent("내용");
+		boardItem4.setBoard(board1);
+		boardItem4.setDate(new Date());
+		
 		// 자식들을 담을 쟁반 생성, 사뿐히 삽입
-		List<BoardItem> list = new ArrayList<>();
-		list.add(boardItem1);
+		List<BoardItem> list1 = new ArrayList<>();
+		list1.add(boardItem1);
+		list1.add(boardItem2);
+		list1.add(boardItem3);
+		list1.add(boardItem4);
 		
 		// 부모에 자식들을 담은 쟁반을 알려줌
-		board1.setBoardItems(list);
+		board1.setBoardItems(list1);
+		
+		// 부모생성
+		Board board2 = new Board();
+		board2.setTitle("두 번째 게시판");
+		
+		// 자식생성 및 부모 알려줌
+		BoardItem boardItem5 = new BoardItem();
+		boardItem5.setTitle("두 번째 게시판의 첫 번째 게시물");
+		boardItem5.setContent("내용");
+		boardItem5.setBoard(board2);
+		boardItem5.setDate(new Date());
+		
+		BoardItem boardItem6 = new BoardItem();
+		boardItem6.setTitle("두 번째 게시판의 두 번째 게시물");
+		boardItem6.setContent("내용");
+		boardItem6.setBoard(board2);
+		boardItem6.setDate(new Date());
+		
+		// 자식들을 담을 쟁반 생성, 사뿐히 삽입
+		List<BoardItem> list2 = new ArrayList<>();
+		list2.add(boardItem5);
+		list2.add(boardItem6);
+		
+		// 부모에 자식들을 담은 쟁반을 알려줌
+		board2.setBoardItems(list2);
 		
 		// 서로 알았으니 부모 저장
 		boardRepository.save(board1);
-		
-		
-		
-		
-		
-		
-		
+		boardRepository.save(board2);
 		
 		
 	}
@@ -102,12 +160,13 @@ class BoardRepositoryTest {
 		boardRepository.save(board1);
 	}
 	
-	@Test
+//	@Test
 	public void delete() {
-		boardItemRepository.deleteById(7);
+		boardItemRepository.deleteAll();
+		boardRepository.deleteAll();
 	}
 	
-    @Test
+//    @Test
     @Transactional
 	public void findChild() {
     	Optional<Board> optionalBoard = boardRepository.findById(1);
@@ -124,7 +183,7 @@ class BoardRepositoryTest {
     	}
 	}
     
-    @Test
+//    @Test
     public void findParent() {
     	Optional<BoardItem> optionalBoardItem = boardItemRepository.findById(7);
     	
