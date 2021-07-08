@@ -4,9 +4,12 @@ package kr.ac.kopo20.perfect.board.repo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,8 +31,43 @@ class BoardItemRepositoryTest {
 	private BoardItemRepository boardItemRepository;
 	
 //	@Test
+	public void searchComment() {
+		List<BoardItem> comments = boardItemRepository.findByBoard_idAndParent(14, 1);
+		
+		for (BoardItem comment : comments) {
+			System.out.println(comment.toString());
+		}
+	}
+	
+	@Test
+	public void searchRealBoardItems() {
+		List<BoardItem> boardItems = boardItemRepository.findByBoard_idAndParent(14, 0);
+		
+		for (BoardItem boardItem : boardItems) {
+			System.out.println(boardItem.toString());
+		}
+	}
+	
+//	@Test
 	public void deleteBoardItem() {
 		boardItemRepository.deleteById(33);
+	}
+	
+//	@Test
+	public void insertBoardItem() {
+		Board board = boardRepository.findById(14).get();
+		
+		BoardItem boardItem = new BoardItem();
+		boardItem.setTitle("추가");
+		boardItem.setDate(new Date());
+		boardItem.setContent("추가내용");
+		boardItem.setBoard(board);
+		
+		List<BoardItem> boardItemList = new ArrayList<>();
+		boardItemList.add(boardItem);
+		board.setBoardItems(boardItemList);
+		
+		boardRepository.save(board);
 	}
 	
 //	@Test 

@@ -2,7 +2,6 @@ package kr.ac.kopo20.perfect.board.repo;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +60,7 @@ class BoardRepositoryTest {
 	
 	
 	
-//	@Test
+	@Test
 	public void createBoardAndBoardItem() {
 		// 부모생성
 		Board board1 = new Board();
