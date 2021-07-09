@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import kr.ac.kopo20.perfect.board.domain.BoardItem;
 import kr.ac.kopo20.perfect.board.repository.BoardItemRepository;
-import kr.ac.kopo20.perfect.board.repository.BoardItemSpecs;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,18 +28,25 @@ class BoardItemRepositoryTest_Search {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("title", "추가");
 		
-		PageRequest pageable = PageRequest.of(0, 10);
+		PageRequest pageable = PageRequest.of(1, 5);
 		Page<BoardItem> page = boardItemRepository.findAll(pageable);
 		
+		PageRequest pageablePrevious = pageable.previous();
+		Page<BoardItem> Previouspage = boardItemRepository.findAll(pageablePrevious);
+		PageRequest pageableNext = pageable.next();
+		Page<BoardItem> Nextpage = boardItemRepository.findAll(pageableNext);
+		
+		for (BoardItem boardItem : Previouspage) {
+			System.out.println(boardItem.toString());
+		}
 		for (BoardItem boardItem : page) {
 			System.out.println(boardItem.toString());
 		}
-		
-		page = boardItemRepository.findAll(BoardItemSpecs.search(filter), pageable);
-		
-		for (BoardItem boardItem : page) {
+		for (BoardItem boardItem : Nextpage) {
 			System.out.println(boardItem.toString());
 		}
+		
+		
 	}
 	
 	

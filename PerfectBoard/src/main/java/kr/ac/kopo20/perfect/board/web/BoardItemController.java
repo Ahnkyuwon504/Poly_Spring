@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.ac.kopo20.perfect.board.domain.Board;
 import kr.ac.kopo20.perfect.board.domain.BoardItem;
 import kr.ac.kopo20.perfect.board.repository.BoardItemRepository;
-import kr.ac.kopo20.perfect.board.repository.BoardItemSpecs;
 import kr.ac.kopo20.perfect.board.repository.BoardRepository;
 import kr.ac.kopo20.perfect.board.service.BoardItemService;
+import kr.ac.kopo20.perfect.board.service.ConstantValueClass;
 
 @Controller
 public class BoardItemController {
@@ -35,10 +35,16 @@ public class BoardItemController {
 	
 	@RequestMapping(value = "/boardItem")
 	public String getBoardItem(Model model,
-			@RequestParam(value="key_boardId") int boardId
+			@RequestParam(value="key_boardId", required=false) int boardId,
+			@RequestParam(value="key_search", required=false) String title,
+			@RequestParam(value="key_previous", required=false) String previous,
+			@RequestParam(value="key_now", required=false) String now,
+			@RequestParam(value="key_next", required=false) String next
 			) {
 		
 		Board board = boardRepository.findById(boardId).get();
+		int nowPage;
+		
 		//List<BoardItem> boardItems = boardItemRepository.findByBoard_idAndParent(boardId, 0);
 		
 		//PageRequest pageable = PageRequest.of(0, 10);
@@ -48,12 +54,30 @@ public class BoardItemController {
 		Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("title", "jk");
 		
-		PageRequest pageable = PageRequest.of(0, 10);
-		Page<BoardItem> page = boardItemRepository.findAllByBoard_idAndParent(boardId, 0, pageable);
+		if (now == null) {
+			nowPage = 0;
+		} else {
+			nowPage = Integer.parseInt(now);
+		}
+		
+		PageRequest pageable = PageRequest.of(nowPage, ConstantValueClass.onePage);
+		
+		if (previous != null) pageable = pageable.previous();
+		if (next != null) pageable = pageable.next();
+		
+		Page<BoardItem> page = boardItemRepository.findAllByBoard_idAndParentAndTitle(boardId, 0, title, pageable);
+		//Page<BoardItem> page = boardItemRepository.findAllByBoard_idAndParent(boardId, 0, pageable);
 		//Page<BoardItem> page = boardItemRepository.findAllByBoard_idAndParent(BoardItemSpecs.search(filter), boardId, 0, pageable);
+		
+		if (title == null) {
+			page = boardItemRepository.findAllByBoard_idAndParent(boardId, 0, pageable);
+		}
+		int nowPageMax = page.getSize() / ConstantValueClass.onePage + 1;
 		
 		model.addAttribute("board", board);
 		model.addAttribute("boardItems", page.getContent());
+		model.addAttribute("nowPageMax", nowPageMax);
+		model.addAttribute("nowPage", nowPage * ConstantValueClass.onePage);
 		
 		return "boardItem";
 	}

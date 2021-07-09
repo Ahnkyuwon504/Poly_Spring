@@ -1,7 +1,6 @@
 package kr.ac.kopo20.perfect.board.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +24,7 @@ public interface BoardItemRepository extends JpaRepository<BoardItem, Integer>, 
 	
 	// 위와 동일
 	Page<BoardItem> findAllByBoard_idAndParent(int board_id, int parent, Pageable pageable);
+	Page<BoardItem> findAllByBoard_idAndParentAndTitle(int board_id, int parent, String title, Pageable pageable);
 	
 	// 검색조건 추가
 	Page<BoardItem> findAllByBoard_idAndParent(Specification<BoardItem> spec, int board_id, int parent, Pageable pageable);

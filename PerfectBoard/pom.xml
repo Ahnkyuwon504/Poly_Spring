@@ -64,6 +64,16 @@
 		  	<groupId>mysql</groupId>
 		  	<artifactId>mysql-connector-java</artifactId> 
 		</dependency>
+		<!-- AOP --> 
+		<dependency> 
+		  	<groupId>org.springframework.boot</groupId>
+		  	<artifactId>spring-boot-starter-aop</artifactId> 
+		</dependency>
+		<!-- Cache --> 
+		<dependency> 
+		  	<groupId>org.springframework.boot</groupId>
+		  	<artifactId>spring-boot-starter-cache</artifactId> 
+		</dependency>
 	</dependencies>
 
 	<build>
